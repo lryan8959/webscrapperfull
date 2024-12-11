@@ -14,7 +14,7 @@ export default function Scraper() {
     setError('');
     setIsLoading(true);
     try {
-      const response = await axios.get('https://ai-tools-6d313-default-rtdb.firebaseio.com/ai_tools.json');
+      const response = await axios.get('https://ai-tools-6d313-ed2be.firebaseio.com/ai_tools.json');
       const toolsArray = Object.values(response.data); // Convert object to array
       setResults(toolsArray);
       setFilteredResults(toolsArray); // Initialize filtered results
@@ -103,6 +103,17 @@ export default function Scraper() {
                       <div className="flex items-center gap-2">
                         <Info className="h-4 w-4 opacity-80" />
                         <p className="text-sm opacity-80 line-clamp-2">{item.toolInfoLink}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2">
+                        <LinkIcon className="h-4 w-4 opacity-80" />
+                        <span className="text-sm opacity-80">Tool description</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Info className="h-4 w-4 opacity-80" />
+                        <p className="text-sm opacity-80 line-clamp-2">{item.description}</p>
                       </div>
                     </div>
 
