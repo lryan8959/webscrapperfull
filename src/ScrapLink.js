@@ -1,4 +1,3 @@
-// src/ScrapeLink.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './ScrapeLink.css'; // Import the CSS file for styling
@@ -15,11 +14,20 @@ const ScrapeLink = () => {
         setError('');
         setResult(null);
 
+        // Validate URL
+        if (!url) {
+            setError('Please enter a valid URL.');
+            setLoading(false);
+            return;
+        }
+
         try {
-            const response = await axios.get(`http://localhost:5000/api/scrape?url=${encodeURIComponent(url)}`);
+            const response = await axios.get(`http://localhost:3000/api/scrape-tools?url=${encodeURIComponent(url)}`);
             setResult(response.data);
         } catch (err) {
-            setError('Failed to scrape the URL. Please try again.');
+            // Check if the error response exists and extract the message
+            const errorMessage = err.response?.data?.message || 'Failed to scrape the URL. Please try again.';
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -36,6 +44,7 @@ const ScrapeLink = () => {
                     onChange={(e) => setUrl(e.target.value)}
                     required
                     className="url-input"
+                    disabled={loading} // Disable input while loading
                 />
                 <button type="submit" disabled={loading} className="scrape-button">
                     {loading ? 'Scraping...' : 'Scrape'}
